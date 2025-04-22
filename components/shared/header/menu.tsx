@@ -1,7 +1,8 @@
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
-import {UserIcon, ShoppingCart} from "lucide-react"
+import {UserIcon, ShoppingCart, EllipsisVertical, EllipsisIcon, LucideEllipsis, HammerIcon} from "lucide-react"
 import { ThemeSwitch } from './theme-switch'
+import { Sheet, SheetContent, SheetDescription, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
 
 
 const Menu = () => {
@@ -19,6 +20,28 @@ const Menu = () => {
                 <UserIcon /> Sign In
             </Link>
         </Button>
+      </nav>
+      <nav className='md:hidden'>
+        <Sheet>
+          <SheetTrigger className='align-middle'>
+            <EllipsisVertical />
+          </SheetTrigger>
+          <SheetContent className='flex flex-col items-start'>
+            <SheetTitle className='m-4 border-b'>Menu</SheetTitle>
+            <ThemeSwitch />
+            <Button asChild variant="ghost">
+              <Link href="/cart">
+                <ShoppingCart /> Cart
+              </Link>
+            </Button>
+            <Button className='ml-2'>
+              <Link href="/sign-in" className='flex items-center gap-2'>
+                  <UserIcon /> Sign In
+              </Link>
+            </Button>
+            <SheetDescription></SheetDescription>
+          </SheetContent>
+        </Sheet>
       </nav>
     </div>
   )
