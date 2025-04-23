@@ -1,10 +1,11 @@
-import { Button } from "@/components/ui/button";
+import ProductList from "@/components/shared/product/product-list";
+import sampleData from "@/db/sample-data";
 
 
-export default function Home() {
+export default function HomePage() {  
   return (
     <div>
-      <Button className="mx-4 my-4">we are here</Button>
+      <ProductList data={sampleData.products} title="New Arrival" limit={4}/>
     </div>
   );
 }
