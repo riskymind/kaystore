@@ -6,9 +6,10 @@ import {
 import Image from "next/image"
 import Link from "next/link"
 import ProductPrice from "./product-price"
+import { Product } from "@/types"
   
 
-const ProductCard = ({product}: {product: any}) => {
+const ProductCard = ({product}: {product: Product}) => {
   return (
     <Card>
         <CardHeader>
