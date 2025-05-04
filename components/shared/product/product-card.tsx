@@ -11,7 +11,7 @@ import { Product } from "@/types"
 
 const ProductCard = ({product}: {product: Product}) => {
   return (
-    <Card>
+    <Card className="">
         <CardHeader>
         <Link href={`/product/${product.slug}`}>
           <Image
