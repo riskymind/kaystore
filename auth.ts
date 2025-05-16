@@ -4,6 +4,9 @@ import {prisma} from "@/db/prisma"
 import CredentialsProvider from "next-auth/providers/credentials"
 import {compareSync } from "bcrypt-ts-edge"
 import type { NextAuthConfig } from "next-auth"
+import { cookies } from "next/headers"
+import { NextResponse } from "next/server"
+import { authConfig } from "./auth.config"
 
 export const config = {
     pages: {
@@ -53,6 +56,7 @@ export const config = {
         })
     ],
     callbacks: {
+        ...authConfig.callbacks,
         async session({session, user, trigger, token}: any) {
             session.user.id = token.sub
             session.user.role = token.role
@@ -78,11 +82,39 @@ export const config = {
                         data: {name: token.name}
                     })
                 }
+
+                if(trigger === "signIn" || trigger === "signUp") {
+                    const cookiesObject = await cookies()
+                    const sessionCartId = cookiesObject.get("sessionCartId")?.value
+
+                    if(sessionCartId) {
+                        const sessionCart = await prisma.cart.findFirst({
+                            where: {sessionCartId}
+                        })
+
+                        if(sessionCart) {
+                            // Delete current user cart
+                            await prisma.cart.deleteMany({
+                                where: {userId: user.id}
+                            })
+
+                            // Assign new cart
+                            await prisma.cart.update({
+                                where: {id: sessionCart.id},
+                                data: {userId: user.id}
+                            })
+                        }
+                    }
+                }
             }
+
+            if(session?.user.name && trigger === "update") {
+                token.name = session.user.name
+            }
+
             return token
         }
     }
-
     
 } satisfies NextAuthConfig
 

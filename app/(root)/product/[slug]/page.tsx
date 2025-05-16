@@ -1,9 +1,11 @@
+import { auth } from "@/auth"
+import AddToCart from "@/components/shared/product/add-to-cart"
 import ProductImages from "@/components/shared/product/product-images"
 import ProductPrice from "@/components/shared/product/product-price"
 import {Badge} from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
 import {Card, CardContent} from "@/components/ui/card"
 import { getProductBySlug } from "@/lib/actions/product.actions"
+import { getCart } from "@/lib/actions/cart.actions"
 import { notFound } from "next/navigation"
 
 
@@ -14,6 +16,11 @@ const ProsuctDetailsPage = async (props: {
 
     const product = await getProductBySlug(slug)
     if(!product) notFound()
+
+    // const session = await auth()
+    // const userId = session?.user?.id
+
+    const cart = await getCart()
 
   return (
     <>
@@ -57,7 +64,16 @@ const ProsuctDetailsPage = async (props: {
                         </div>
                         {product.stock > 0 && (
                             <div className="flex justify-center items-center">
-                                <Button className="w-full">Add To Cart</Button>
+                                <AddToCart 
+                                cart={cart}
+                                item={{
+                                    productId: product.id,
+                                    name: product.name,
+                                    slug: product.slug,
+                                    price: product.price,
+                                    qty: 1,
+                                    image: product.images[0]
+                                }}/>
                             </div>
                         )}
                     </CardContent>
