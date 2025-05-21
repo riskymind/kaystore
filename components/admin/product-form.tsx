@@ -40,12 +40,8 @@ const ProductForm = ({
 
 
   const form = useForm<z.infer<typeof insertProductSchema>>({
-    resolver:
-      type === 'Update'
-        ? zodResolver(updateProductSchema)
-        : zodResolver(insertProductSchema),
-    defaultValues:
-      product && type === 'Update' ? product : productDefaultValues,
+    resolver: type === 'Update' ? zodResolver(updateProductSchema) : zodResolver(insertProductSchema),
+    defaultValues: product && type === 'Update' ? product : productDefaultValues,
   });
 
   const onSubmit: SubmitHandler<z.infer<typeof insertProductSchema>> = async (
@@ -248,7 +244,7 @@ const ProductForm = ({
                 <FormLabel>Images</FormLabel>
                 <Card>
                   <CardContent className='space-y-2 mt-2 min-h-48'>
-                    <div className='flex-start space-x-2'>
+                    <div className='flex items-center justify-start space-x-2'>
                       {images.map((image: string) => (
                         <Image
                           key={image}
@@ -287,7 +283,7 @@ const ProductForm = ({
                 control={form.control}
                 name='isFeatured'
                 render={({ field }) => (
-                  <FormItem className='space-x-2 items-center'>
+                  <FormItem className='space-x-2 flex items-center'>
                     <FormControl>
                       <Checkbox
                         checked={field.value}

@@ -8,7 +8,7 @@ import { Prisma } from "@prisma/client"
 import { PAGE_SIZE } from "../constants"
 
 // Get Latest products
-export async function getLatestProudcts() {
+export async function getLatestProducts() {
     const data = await prisma.product.findMany({
         take: 4,
         orderBy: {createdAt: "desc"}
