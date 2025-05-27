@@ -7,9 +7,10 @@ import {Card, CardContent} from "@/components/ui/card"
 import { getProductBySlug } from "@/lib/actions/product.actions"
 import { getCart } from "@/lib/actions/cart.actions"
 import { notFound } from "next/navigation"
+import ReviewList from "./review-list"
 
 
-const ProsuctDetailsPage = async (props: {
+const ProductDetailsPage = async (props: {
     params: Promise<{slug: string}>
 }) => {
     const {slug} = await props.params
@@ -17,8 +18,8 @@ const ProsuctDetailsPage = async (props: {
     const product = await getProductBySlug(slug)
     if(!product) notFound()
 
-    // const session = await auth()
-    // const userId = session?.user?.id
+    const session = await auth()
+    const userId = session?.user?.id
 
     const cart = await getCart()
 
@@ -81,8 +82,16 @@ const ProsuctDetailsPage = async (props: {
             </div>
         </div>   
      </section> 
+     <section className='mt-10'>
+        <h2 className='h2-bold mb-5'>Customer Reviews</h2>
+        <ReviewList
+          userId={userId || ''}
+          productId={product.id}
+          productSlug={product.slug}
+        />
+    </section>
     </>
   )
 }
 
-export default ProsuctDetailsPage
+export default ProductDetailsPage

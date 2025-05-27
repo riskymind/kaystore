@@ -22,16 +22,18 @@ import {
 } from '@paypal/react-paypal-js';
 import { approvePayPalOrder, createPayPalOrder, deliverOrder, updateOrderToPaidCOD } from '@/lib/actions/order.actions';
 import { toast } from 'sonner';
-// import StripePayment from './stripe-payment';
+import StripePayment from './stripe-payment';
 
 const OrderDetailsTable = ({
   order,
   paypalClientId,
   isAdmin,
+  stripeClientSecret,
 }: {
   order: Omit<Order, 'paymentResult'>;
   paypalClientId: string;
   isAdmin: boolean;
+  stripeClientSecret: string | null;
 }) => {
   const {
     id,
@@ -228,13 +230,13 @@ const OrderDetailsTable = ({
               )}
 
               {/* Stripe Payment */}
-              {/* {!isPaid && paymentMethod === 'Stripe' && stripeClientSecret && (
+              {!isPaid && paymentMethod === 'Stripe' && stripeClientSecret && (
                 <StripePayment
                   priceInCents={Number(order.totalPrice) * 100}
                   orderId={order.id}
                   clientSecret={stripeClientSecret}
                 />
-              )} */}
+              )}
 
               {/* Cash On Delivery */}
               {isAdmin && !isPaid && paymentMethod === 'CashOnDelivery' && (
