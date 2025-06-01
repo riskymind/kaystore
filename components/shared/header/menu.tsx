@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
-import {UserIcon, ShoppingCart, EllipsisVertical} from "lucide-react"
+import {ShoppingCart, EllipsisVertical} from "lucide-react"
 import { ThemeSwitch } from './theme-switch'
 import { Sheet, SheetContent, SheetDescription, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
 import UserButton from './user-button'
